@@ -1,0 +1,8 @@
+2026/02/08-04:35:46.669 5b9c Reusing MANIFEST D:\New folder (2)\taskpilot\server\user-data\Default\IndexedDB\https_www.coursera.org_0.indexeddb.leveldb/MANIFEST-000001
+2026/02/08-04:35:46.670 5b9c Recovering log #4
+2026/02/08-04:35:46.672 5b9c Reusing old log D:\New folder (2)\taskpilot\server\user-data\Default\IndexedDB\https_www.coursera.org_0.indexeddb.leveldb/000004.log 
+2026/02/08-04:35:47.481 5ca4 Level-0 table #8: started
+2026/02/08-04:35:47.486 5ca4 Level-0 table #8: 946 bytes OK
+2026/02/08-04:35:47.493 5ca4 Delete type=0 #4
+2026/02/08-04:35:47.495 5078 Manual compaction at level-0 from '\x00\x09\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x0a\x00\x00\x00' @ 0 : 0; will stop at (end)
+2026/02/08-04:35:47.504 5ca4 Manual compaction at level-0 from '\x00\x0a\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x0b\x00\x00\x00' @ 0 : 0; will stop at (end)

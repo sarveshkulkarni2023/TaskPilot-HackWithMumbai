@@ -1,0 +1,2 @@
+class SafeModeBlocked(Exception):
+    pass

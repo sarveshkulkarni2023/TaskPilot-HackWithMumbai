@@ -1,0 +1,8 @@
+2026/02/08-04:31:30.171 52a0 Reusing MANIFEST D:\New folder (2)\taskpilot\server\user-data\Default\IndexedDB\https_www.coursera.org_0.indexeddb.leveldb/MANIFEST-000001
+2026/02/08-04:31:30.174 52a0 Recovering log #3
+2026/02/08-04:31:30.177 52a0 Reusing old log D:\New folder (2)\taskpilot\server\user-data\Default\IndexedDB\https_www.coursera.org_0.indexeddb.leveldb/000003.log 
+2026/02/08-04:31:30.200 47a8 Manual compaction at level-0 from '\x00\x07\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x08\x00\x00\x00' @ 0 : 0; will stop at (end)
+2026/02/08-04:31:30.220 52a0 Level-0 table #5: started
+2026/02/08-04:31:30.230 52a0 Level-0 table #5: 7222 bytes OK
+2026/02/08-04:31:30.238 52a0 Delete type=0 #3
+2026/02/08-04:31:30.240 52a0 Manual compaction at level-0 from '\x00\x08\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x09\x00\x00\x00' @ 0 : 0; will stop at (end)
