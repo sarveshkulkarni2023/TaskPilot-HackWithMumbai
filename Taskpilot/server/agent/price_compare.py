@@ -45,10 +45,18 @@ def _parse_goal(goal: str) -> tuple[str, Optional[float]]:
     if m:
         max_price = float(m.group(1).replace(",", ""))
     product = re.sub(r"under\s+[\d,]+", "", goal, flags=re.I)
-    product = product.replace("on amazon", "").replace("on flipkart", "").replace("on meesho", "")
-    product = product.replace("on", " ").replace("price", " ")
-    product = product.replace("  ", " ").strip()
+    product = re.sub(r"\b(find|search|show|compare|price|prices)\b", "", product, flags=re.I)
+    product = re.sub(r"\bon\s+(amazon|flipkart|meesho)\b", "", product, flags=re.I)
+    product = re.sub(r"\b(amazon|flipkart|meesho)\b", "", product, flags=re.I)
+    product = product.replace("price", " ")
+    product = re.sub(r"\s+", " ", product).strip()
     return product, max_price
+
+
+def _select_platforms(goal: str, platforms: List[str]) -> List[str]:
+    lower = goal.lower()
+    mentioned = [p for p in platforms if p in lower]
+    return mentioned or platforms
 
 
 def _money_to_float(text: str) -> Optional[float]:
@@ -62,6 +70,7 @@ def _money_to_float(text: str) -> Optional[float]:
 
 async def run_price_compare(goal: str, manager: WebSocketManager, platforms: List[str]) -> None:
     product, max_price = _parse_goal(goal)
+    platforms = _select_platforms(goal, platforms)
     await manager.send_log("info", f"Price compare: '{product}' under {max_price or 'no limit'}")
 
     async def _scrape(platform_key: str) -> PlatformResult:
@@ -72,7 +81,7 @@ async def run_price_compare(goal: str, manager: WebSocketManager, platforms: Lis
             url = config["search_url"].format(query=_urlencode(product))
             await controller.perform_action(Step(action="navigate", url=url))
             await controller.perform_action(Step(action="wait", ms=1500))
-            items = await asyncio.to_thread(_extract_items_sync, controller, platform_key)
+            items = await controller.run_in_executor(_extract_items_sync, controller, platform_key)
             # Filter by max price
             if max_price is not None:
                 items = [i for i in items if i.price is None or i.price <= max_price]
@@ -87,7 +96,13 @@ async def run_price_compare(goal: str, manager: WebSocketManager, platforms: Lis
             await controller.stop()
 
     tasks = [_scrape(p) for p in platforms]
-    results = await asyncio.gather(*tasks, return_exceptions=False)
+    results = await asyncio.gather(*tasks, return_exceptions=True)
+    filtered: List[PlatformResult] = []
+    for result in results:
+        if isinstance(result, Exception):
+            await manager.send_log("error", f"Price compare error: {result}")
+            continue
+        filtered.append(result)
 
     payload = {
         "query": product,
@@ -99,7 +114,7 @@ async def run_price_compare(goal: str, manager: WebSocketManager, platforms: Lis
                     {"title": i.title, "price": i.price, "url": i.url} for i in r.items
                 ],
             }
-            for r in results
+            for r in filtered
         ],
     }
     await manager.send_event("PRICE_RESULTS", payload)

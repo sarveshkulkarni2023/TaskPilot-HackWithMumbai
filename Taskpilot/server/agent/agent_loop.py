@@ -68,4 +68,7 @@ async def run_agent(goal: str, manager: WebSocketManager) -> None:
 
 def _is_price_compare(goal: str) -> bool:
     lower = goal.lower()
-    return ("under" in lower or "below" in lower) and ("amazon" in lower or "flipkart" in lower or "meesho" in lower)
+    has_price_signal = "under" in lower or "below" in lower
+    has_compare_signal = "price compare" in lower or "compare price" in lower or "compare" in lower
+    has_platform_signal = "amazon" in lower or "flipkart" in lower or "meesho" in lower
+    return (has_price_signal and has_platform_signal) or has_compare_signal

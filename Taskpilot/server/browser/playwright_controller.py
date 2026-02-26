@@ -71,6 +71,11 @@ class PlaywrightController:
             raise RuntimeError("Browser page is not initialized")
         await self._loop.run_in_executor(self._executor, self._perform_action_sync, step)
 
+    async def run_in_executor(self, func, *args):
+        if not self._loop:
+            raise RuntimeError("Browser page is not initialized")
+        return await self._loop.run_in_executor(self._executor, func, *args)
+
     def _start_sync(self) -> None:
         self._playwright = sync_playwright().start()
         if self._persistent:

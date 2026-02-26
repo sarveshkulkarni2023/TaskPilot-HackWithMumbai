@@ -1,0 +1,12 @@
+{
+  "python.defaultInterpreterPath": "D:\\New folder (2)\\taskpilot\\server\\.venv\\Scripts\\python.exe",
+  "python.terminal.activateEnvironment": true,
+  "python-envs.defaultEnvManager": "ms-python.python:system",
+  "python-envs.pythonProjects": [],
+  "python.analysis.extraPaths": [
+    "D:\\New folder (2)\\taskpilot\\server\\.venv\\Lib\\site-packages"
+  ],
+  "cursorpyright.analysis.extraPaths": [
+    "D:\\New folder (2)\\taskpilot\\server\\.venv\\Lib\\site-packages"
+  ]
+}
